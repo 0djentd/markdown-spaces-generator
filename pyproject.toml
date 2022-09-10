@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "markdown-spaces-generator"
+version = "0.2.0"
+description = ""
+authors = ["0djentd"]
+
+[tool.poetry.scripts]
+markdown-spaces-generator="markdown_spaces_generator.cli:main"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
