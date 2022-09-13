@@ -1,12 +1,10 @@
 # markdown-spaces-generator
 ## How to use
 ```
-usage: markdown-spaces-generator [-h] [-r REPLACE] files [files ...]
+Usage: markdown-spaces-generator [OPTIONS] [FILES]...
 
-positional arguments:
-  files
-
-options:
-  -h, --help            show this help message and exit
-  -r REPLACE, --replace REPLACE
+Options:
+  --replace / --no-replace
+  --version                 Show the version and exit.
+  --help                    Show this message and exit.
 ```
