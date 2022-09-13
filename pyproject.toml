@@ -9,6 +9,7 @@ markdown-spaces-generator="markdown_spaces_generator.cli:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+click = "^8.1.3"
 
 [tool.poetry.dev-dependencies]
 

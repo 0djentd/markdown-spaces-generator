@@ -1,13 +1,11 @@
-import argparse
 import re
+import sys
+
 from typing import List, Optional
 
+from markdown_spaces_generator import __version__
 
-def get_config():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("files", nargs="+")
-    parser.add_argument("-r", "--replace", default=False)
-    return parser.parse_args()
+import click
 
 
 def check_if_stop_line(line) -> bool:
@@ -57,10 +55,15 @@ def process_file(filename: str, replace: bool):
             print(line)
 
 
-def main():
-    conf = get_config()
-    for file in conf.files:
-        process_file(file, conf.replace)
+@click.command()
+@click.argument("files", nargs=-1)
+@click.option("--replace/--no-replace", default=False)
+@click.version_option(__version__)
+def main(files, replace):
+    if len(files) == 0:
+        sys.exit(1)
+    for file in files:
+        process_file(file, replace)
 
 
 if __name__ == "__main__":
