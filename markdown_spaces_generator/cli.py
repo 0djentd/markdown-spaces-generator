@@ -1,7 +1,6 @@
 import argparse
 import re
-
-from typing import Optional, List
+from typing import List, Optional
 
 
 def get_config():
@@ -11,17 +10,18 @@ def get_config():
     return parser.parse_args()
 
 
-def generate_spaces(lines: List[str]) -> List[str]:
+def check_if_stop_line(line) -> bool:
+    stop_lines_re = ["^$", "^\s*#"]
+    for expr in stop_lines_re:
+        if re.match(expr, line):
+            return True
+    return False
+
+
+def add_spaces(lines: List[str]) -> List[str]:
     result = []
     lines_shift: List[Optional[str]] = [None]
     lines_shift += lines[:-1]
-
-    def check_if_stop_line(line) -> bool:
-        stop_lines_re = ["^$", "^\s*#"]
-        for expr in stop_lines_re:
-            if re.match(expr, line):
-                return True
-        return False
 
     for line, previous_line in zip(lines, lines_shift):
         if previous_line is not None:
@@ -30,20 +30,30 @@ def generate_spaces(lines: List[str]) -> List[str]:
                     result += [previous_line + "  "]
                     continue
             result += [previous_line]
+
     result += [lines[-1]]
     return result
 
 
-def process_file(filename: str, replace: bool):
+def read_file(filename) -> List[str]:
     lines = []
     with open(filename, "r", encoding="utf-8") as file:
         lines = file.read().splitlines()
-    result_lines = generate_spaces(lines)
+    return lines
+
+
+def write_file(filename, lines):
+    with open(filename, "w", encoding="utf-8") as file:
+        file.writelines([x + "\n" for x in lines])
+
+
+def process_file(filename: str, replace: bool):
+    lines = read_file(filename)
+    result = add_spaces(lines)
     if replace:
-        with open(filename, "w", encoding="utf-8") as file:
-            file.writelines([x + "\n" for x in result_lines])
+        write_file(filename, result)
     else:
-        for line in result_lines:
+        for line in result:
             print(line)
 
 
