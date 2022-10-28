@@ -1,15 +1,12 @@
 import re
+import argparse
 import sys
 
 from typing import List, Optional
 
-from markdown_spaces_generator import __version__
-
-import click
-
 
 def check_if_stop_line(line) -> bool:
-    stop_lines_re = ["^$", "^\s*#"]
+    stop_lines_re = [r"^$", r"^\s*#"]
     for expr in stop_lines_re:
         if re.match(expr, line):
             return True
@@ -55,11 +52,15 @@ def process_file(filename: str, replace: bool):
             print(line)
 
 
-@click.command()
-@click.argument("files", nargs=-1)
-@click.option("--replace/--no-replace", default=False)
-@click.version_option(__version__)
-def main(files, replace):
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("files", nargs="+")
+    parser.add_argument("--replace", action="store_true")
+    config = parser.parse_args()
+
+    files = config.files
+    replace = config.replace
+
     if len(files) == 0:
         sys.exit(1)
     for file in files:
