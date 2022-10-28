@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "markdown-spaces-generator"
-version = "0.3.1"
+version = "0.4.0"
 description = ""
 authors = ["0djentd"]
 
